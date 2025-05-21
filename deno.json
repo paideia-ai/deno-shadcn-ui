@@ -11,9 +11,6 @@
     "rules": {
       "tags": [
         "recommended"
-      ],
-      "exclude": [
-        "no-window-prefix"
       ]
     }
   },
@@ -31,7 +28,7 @@
   "tasks": {
     "update": "deno run --allow-read --allow-write scripts/update.ts",
     "build-exports": "deno run --allow-read --allow-write scripts/build-exports.ts",
-    "sync": "deno task update && deno task build-exports && deno fmt src"
+    "sync": "deno task update && deno task build-exports && deno fmt src && deno lint --fix src"
   },
   "imports": {
     "clsx": "npm:clsx@^2.1.1",

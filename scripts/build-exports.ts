@@ -9,20 +9,20 @@ const SRC_DIR = './src/default'
 const DENO_JSON_PATH = './deno.json'
 
 interface DenoJsonConfig {
-  compilerOptions?: Record<string, unknown>;
-  lint?: Record<string, unknown>;
-  fmt?: Record<string, unknown>;
-  tasks?: Record<string, unknown>;
-  imports?: Record<string, string>;
-  exports?: Record<string, string>;
+  compilerOptions?: Record<string, unknown>
+  lint?: Record<string, unknown>
+  fmt?: Record<string, unknown>
+  tasks?: Record<string, unknown>
+  imports?: Record<string, string>
+  exports?: Record<string, string>
 }
 
 /**
  * Get all files in hooks and ui directories
  */
 async function getComponentFiles(): Promise<{
-  hooks: string[];
-  ui: string[];
+  hooks: string[]
+  ui: string[]
 }> {
   const hooks: string[] = []
   const ui: string[] = []
@@ -78,7 +78,7 @@ function generateExports(hooks: string[], ui: string[]): Record<string, string> 
  */
 function haveExportsChanged(
   currentExports: Record<string, string> | undefined,
-  newExports: Record<string, string>
+  newExports: Record<string, string>,
 ): boolean {
   if (!currentExports) return true
 
@@ -109,7 +109,7 @@ async function main() {
 
   // Generate exports
   const newExports = generateExports(hooks, ui)
-  
+
   // Read deno.json
   let config: DenoJsonConfig
   try {
@@ -133,7 +133,7 @@ async function main() {
   try {
     await Deno.writeTextFile(
       DENO_JSON_PATH,
-      JSON.stringify(config, null, 2) + '\n'
+      JSON.stringify(config, null, 2) + '\n',
     )
     console.log(`Updated ${DENO_JSON_PATH} with ${Object.keys(newExports).length} exports`)
   } catch (e) {
