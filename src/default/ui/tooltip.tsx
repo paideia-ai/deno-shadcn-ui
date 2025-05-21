@@ -2,19 +2,82 @@
 
 import * as React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const TooltipProvider = TooltipPrimitive.Provider
+/**
+ * Tooltip provider component that manages tooltip state globally.
+ * Must be used as a wrapper around all tooltip components.
+ *
+ * @type {React.FC<React.ComponentProps<typeof TooltipPrimitive.Provider>>}
+ * @see {@link https://www.radix-ui.com/docs/primitives/components/tooltip#provider}
+ *
+ * @example
+ * ```tsx
+ * <TooltipProvider>
+ *   <Tooltip>
+ *     <TooltipTrigger>Hover</TooltipTrigger>
+ *     <TooltipContent>Add to library</TooltipContent>
+ *   </Tooltip>
+ * </TooltipProvider>
+ * ```
+ */
+const TooltipProvider: React.FC<React.ComponentProps<typeof TooltipPrimitive.Provider>> = TooltipPrimitive.Provider
 
-const Tooltip = TooltipPrimitive.Root
+/**
+ * Root tooltip component that controls the display of the tooltip.
+ * Manages the open state of the tooltip.
+ *
+ * @type {React.FC<React.ComponentProps<typeof TooltipPrimitive.Root>>}
+ * @see {@link https://www.radix-ui.com/docs/primitives/components/tooltip#root}
+ *
+ * @example
+ * ```tsx
+ * <Tooltip>
+ *   <TooltipTrigger>Hover</TooltipTrigger>
+ *   <TooltipContent>Add to library</TooltipContent>
+ * </Tooltip>
+ * ```
+ */
+const Tooltip: React.FC<React.ComponentProps<typeof TooltipPrimitive.Root>> = TooltipPrimitive.Root
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+/**
+ * The element that triggers the tooltip when hovered or focused.
+ *
+ * @type {React.FC<React.ComponentProps<typeof TooltipPrimitive.Trigger>>}
+ * @see {@link https://www.radix-ui.com/docs/primitives/components/tooltip#trigger}
+ *
+ * @example
+ * ```tsx
+ * <TooltipTrigger>Hover</TooltipTrigger>
+ * ```
+ */
+const TooltipTrigger: React.FC<React.ComponentProps<typeof TooltipPrimitive.Trigger>> = TooltipPrimitive.Trigger
 
-const TooltipContent = React.forwardRef<
+/**
+ * The content displayed inside the tooltip.
+ *
+ * @type {React.ForwardRefExoticComponent<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & React.RefAttributes<React.ElementRef<typeof TooltipPrimitive.Content>>>}
+ * @see {@link https://www.radix-ui.com/docs/primitives/components/tooltip#content}
+ *
+ * @param {object} props - The properties for the tooltip content
+ * @param {string} [props.className] - Additional CSS class names
+ * @param {number} [props.sideOffset=4] - The distance in pixels from the trigger
+ * @param {React.Ref<React.ElementRef<typeof TooltipPrimitive.Content>>} ref - The ref to be passed to the underlying element
+ * @returns {React.ReactElement} The tooltip content component
+ *
+ * @example
+ * ```tsx
+ * <TooltipContent className="bg-secondary">
+ *   <p>Add to library</p>
+ * </TooltipContent>
+ * ```
+ */
+const TooltipContent: ForwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+> = React.forwardRef(({ className, sideOffset = 4, ...props }, ref) => (
   <TooltipPrimitive.Content
     ref={ref}
     sideOffset={sideOffset}

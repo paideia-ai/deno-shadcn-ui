@@ -7,7 +7,7 @@ import { ensureDir } from 'jsr:@std/fs'
 import { extname, join } from 'jsr:@std/path'
 
 const SHADCN_REGISTRY_PATH = './ui/apps/www/registry/default'
-const TARGET_BASE_PATH = './src/default'
+const TARGET_BASE_PATH = './raw/default'
 
 // Store all detected imports with counts and categories
 interface ImportInfo {

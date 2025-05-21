@@ -2,10 +2,41 @@
 
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const Drawer = ({
+/**
+ * A drawer component that slides in from the edge of the screen.
+ *
+ * Built on top of Vaul by Emil Kowalski.
+ *
+ * @see https://vaul.emilkowal.ski/getting-started
+ *
+ * @param props - The component props
+ * @param props.shouldScaleBackground - Whether the background should scale when the drawer is open, defaults to true
+ * @returns A Drawer component
+ *
+ * @example
+ * ```tsx
+ * <Drawer>
+ *   <DrawerTrigger>Open</DrawerTrigger>
+ *   <DrawerContent>
+ *     <DrawerHeader>
+ *       <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+ *       <DrawerDescription>This action cannot be undone.</DrawerDescription>
+ *     </DrawerHeader>
+ *     <DrawerFooter>
+ *       <Button>Submit</Button>
+ *       <DrawerClose>
+ *         <Button variant="outline">Cancel</Button>
+ *       </DrawerClose>
+ *     </DrawerFooter>
+ *   </DrawerContent>
+ * </Drawer>
+ * ```
+ */
+const Drawer: React.FC<React.ComponentProps<typeof DrawerPrimitive.Root>> = ({
   shouldScaleBackground = true,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
@@ -16,16 +47,52 @@ const Drawer = ({
 )
 Drawer.displayName = 'Drawer'
 
-const DrawerTrigger = DrawerPrimitive.Trigger
+/**
+ * The trigger that opens the drawer when clicked.
+ *
+ * @example
+ * ```tsx
+ * <DrawerTrigger>Open</DrawerTrigger>
+ * ```
+ */
+const DrawerTrigger: React.FC<React.ComponentProps<typeof DrawerPrimitive.Trigger>> = DrawerPrimitive.Trigger
 
-const DrawerPortal = DrawerPrimitive.Portal
+/**
+ * Creates a portal for the drawer content.
+ *
+ * @example
+ * ```tsx
+ * <DrawerPortal>
+ *   <DrawerContent>...</DrawerContent>
+ * </DrawerPortal>
+ * ```
+ */
+const DrawerPortal: React.FC<React.ComponentProps<typeof DrawerPrimitive.Portal>> = DrawerPrimitive.Portal
 
-const DrawerClose = DrawerPrimitive.Close
+/**
+ * The button that closes the drawer when clicked.
+ *
+ * @example
+ * ```tsx
+ * <DrawerClose>
+ *   <Button variant="outline">Cancel</Button>
+ * </DrawerClose>
+ * ```
+ */
+const DrawerClose: React.FC<React.ComponentProps<typeof DrawerPrimitive.Close>> = DrawerPrimitive.Close
 
-const DrawerOverlay = React.forwardRef<
+/**
+ * The overlay that covers the background when the drawer is open.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @param ref - The reference to the underlying DOM element
+ * @returns An overlay component with styling
+ */
+const DrawerOverlay: ForwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn('fixed inset-0 z-50 bg-black/80', className)}
@@ -34,10 +101,28 @@ const DrawerOverlay = React.forwardRef<
 ))
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
 
-const DrawerContent = React.forwardRef<
+/**
+ * The content of the drawer that appears from the edge of the screen.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @param props.children - The content inside the drawer
+ * @param ref - The reference to the underlying DOM element
+ * @returns A drawer content component with styling
+ *
+ * @example
+ * ```tsx
+ * <DrawerContent>
+ *   <DrawerHeader>...</DrawerHeader>
+ *   <p>Some content for the drawer</p>
+ *   <DrawerFooter>...</DrawerFooter>
+ * </DrawerContent>
+ * ```
+ */
+const DrawerContent: ForwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+> = React.forwardRef(({ className, children, ...props }, ref) => (
   <DrawerPortal>
     <DrawerOverlay />
     <DrawerPrimitive.Content
@@ -55,7 +140,22 @@ const DrawerContent = React.forwardRef<
 ))
 DrawerContent.displayName = 'DrawerContent'
 
-const DrawerHeader = ({
+/**
+ * The header section of the drawer, typically containing a title and description.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @returns A styled header section
+ *
+ * @example
+ * ```tsx
+ * <DrawerHeader>
+ *   <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+ *   <DrawerDescription>This action cannot be undone.</DrawerDescription>
+ * </DrawerHeader>
+ * ```
+ */
+const DrawerHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -66,7 +166,24 @@ const DrawerHeader = ({
 )
 DrawerHeader.displayName = 'DrawerHeader'
 
-const DrawerFooter = ({
+/**
+ * The footer section of the drawer, typically containing action buttons.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @returns A styled footer section
+ *
+ * @example
+ * ```tsx
+ * <DrawerFooter>
+ *   <Button>Submit</Button>
+ *   <DrawerClose>
+ *     <Button variant="outline">Cancel</Button>
+ *   </DrawerClose>
+ * </DrawerFooter>
+ * ```
+ */
+const DrawerFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -77,10 +194,23 @@ const DrawerFooter = ({
 )
 DrawerFooter.displayName = 'DrawerFooter'
 
-const DrawerTitle = React.forwardRef<
+/**
+ * The title of the drawer, typically placed inside the DrawerHeader.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @param ref - The reference to the underlying DOM element
+ * @returns A styled title component
+ *
+ * @example
+ * ```tsx
+ * <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+ * ```
+ */
+const DrawerTitle: ForwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
     className={cn(
@@ -92,10 +222,24 @@ const DrawerTitle = React.forwardRef<
 ))
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName
 
-const DrawerDescription = React.forwardRef<
+/**
+ * The description of the drawer, providing additional context about the drawer's purpose.
+ * Typically placed inside the DrawerHeader.
+ *
+ * @param props - The component props
+ * @param props.className - Additional CSS class names
+ * @param ref - The reference to the underlying DOM element
+ * @returns A styled description component
+ *
+ * @example
+ * ```tsx
+ * <DrawerDescription>This action cannot be undone.</DrawerDescription>
+ * ```
+ */
+const DrawerDescription: ForwardRef<
   React.ElementRef<typeof DrawerPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
     className={cn('text-sm text-muted-foreground', className)}

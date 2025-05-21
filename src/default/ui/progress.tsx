@@ -2,13 +2,41 @@
 
 import * as React from 'react'
 import * as ProgressPrimitive from '@radix-ui/react-progress'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const Progress = React.forwardRef<
+/**
+ * Progress component interface
+ */
+export interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
+  /**
+   * The current progress value between 0 and 100
+   */
+  value?: number
+}
+
+/**
+ * Progress component
+ *
+ * Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+ *
+ * @param props - The component props
+ * @param props.className - Optional CSS class to apply to the component
+ * @param props.value - The current progress value between 0 and 100
+ * @param props.props - Additional props to pass to the underlying element
+ * @param ref - React ref forwarded to the underlying element
+ * @returns A Progress component
+ *
+ * @example
+ * ```tsx
+ * <Progress value={33} />
+ * ```
+ */
+const Progress: ForwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, ...props }, ref) => (
+  ProgressProps
+> = React.forwardRef(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(

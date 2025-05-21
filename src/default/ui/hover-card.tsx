@@ -2,17 +2,80 @@
 
 import * as React from 'react'
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const HoverCard = HoverCardPrimitive.Root
+/**
+ * HoverCard is a component that displays a card when the user hovers over a trigger element.
+ * It's useful for sighted users to preview content available behind a link.
+ *
+ * Based on Radix UI's HoverCard primitive.
+ *
+ * @see {@link https://www.radix-ui.com/docs/primitives/components/hover-card}
+ *
+ * @example
+ * ```tsx
+ * <HoverCard>
+ *   <HoverCardTrigger>Hover</HoverCardTrigger>
+ *   <HoverCardContent>Card content</HoverCardContent>
+ * </HoverCard>
+ * ```
+ */
+const HoverCard: React.FC<React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>> = HoverCardPrimitive.Root
 
-const HoverCardTrigger = HoverCardPrimitive.Trigger
+/**
+ * The trigger element that opens the hover card when hovered.
+ * Can be wrapped around any element using the `asChild` prop.
+ *
+ * @example
+ * ```tsx
+ * <HoverCardTrigger>Hover over me</HoverCardTrigger>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <HoverCardTrigger asChild>
+ *   <Button>Hover over me</Button>
+ * </HoverCardTrigger>
+ * ```
+ */
+const HoverCardTrigger: React.FC<React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger>> =
+  HoverCardPrimitive.Trigger
 
-const HoverCardContent = React.forwardRef<
+/**
+ * The content that appears when the trigger is hovered.
+ * Contains the information to be previewed.
+ *
+ * @param props - Component props
+ * @param props.className - Additional CSS classes to apply to the component
+ * @param props.align - Alignment of the content relative to the trigger (default: 'center')
+ * @param props.sideOffset - Distance in pixels from the trigger (default: 4)
+ * @param ref - Forwarded ref
+ * @returns HoverCard content component
+ *
+ * @example
+ * ```tsx
+ * <HoverCardContent className="w-80">
+ *   <div className="flex space-x-4">
+ *     <Avatar>
+ *       <AvatarImage src="https://github.com/vercel.png" />
+ *       <AvatarFallback>VC</AvatarFallback>
+ *     </Avatar>
+ *     <div className="space-y-1">
+ *       <h4 className="text-sm font-semibold">@nextjs</h4>
+ *       <p className="text-sm">
+ *         The React Framework – created and maintained by @vercel.
+ *       </p>
+ *     </div>
+ *   </div>
+ * </HoverCardContent>
+ * ```
+ */
+const HoverCardContent: ForwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
->(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
+> = React.forwardRef(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
   <HoverCardPrimitive.Content
     ref={ref}
     align={align}

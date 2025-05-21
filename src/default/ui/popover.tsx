@@ -2,17 +2,61 @@
 
 import * as React from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const Popover = PopoverPrimitive.Root
+/**
+ * The root component of the popover.
+ *
+ * Displays rich content in a portal, triggered by a button.
+ *
+ * @example
+ * ```tsx
+ * <Popover>
+ *   <PopoverTrigger>Open</PopoverTrigger>
+ *   <PopoverContent>Place content for the popover here.</PopoverContent>
+ * </Popover>
+ * ```
+ */
+const Popover: React.FC<React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>> = PopoverPrimitive.Root
 
-const PopoverTrigger = PopoverPrimitive.Trigger
+/**
+ * The trigger element that toggles the popover.
+ *
+ * This component is typically used as a button or other interactive element
+ * that users can click to open or close the popover.
+ *
+ * @example
+ * ```tsx
+ * <PopoverTrigger>Click me</PopoverTrigger>
+ * ```
+ */
+const PopoverTrigger: React.FC<React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>> =
+  PopoverPrimitive.Trigger
 
-const PopoverContent = React.forwardRef<
+/**
+ * The content component that appears inside the portal when the popover is open.
+ *
+ * @param props - Component properties
+ * @param props.className - Additional CSS class names to apply to the content
+ * @param props.align - Alignment of the popover relative to the trigger (default: 'center')
+ * @param props.sideOffset - Distance from the trigger in pixels (default: 4)
+ * @param ref - Forwarded ref
+ * @returns The popover content component
+ *
+ * @example
+ * ```tsx
+ * <PopoverContent className="p-4">
+ *   <h3>Popover Title</h3>
+ *   <p>This is the content of the popover.</p>
+ * </PopoverContent>
+ * ```
+ */
+const PopoverContent: ForwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
+> = React.forwardRef(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}

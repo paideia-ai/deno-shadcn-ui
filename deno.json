@@ -1,6 +1,6 @@
 {
   "name": "@isofucius/deno-shadcn-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publish": {
     "include": [
       "LICENSE",
@@ -41,7 +41,8 @@
   "tasks": {
     "update": "deno run --allow-read --allow-write scripts/update.ts",
     "build-exports": "deno run --allow-read --allow-write scripts/build-exports.ts",
-    "sync": "deno task update && deno task build-exports && deno fmt src && deno lint --fix src"
+    "enhance": "deno run -A scripts/enhance-components.ts",
+    "sync": "deno task update && deno fmt raw && deno lint --fix raw"
   },
   "imports": {
     "@radix-ui/react-accordion": "npm:@radix-ui/react-accordion@^1.2.11",
@@ -86,8 +87,9 @@
     "recharts": "npm:recharts@^2.15.3",
     "sonner": "npm:sonner@^2.0.3",
     "tailwind-merge": "npm:tailwind-merge@^3.3.0",
+    "vaul": "npm:vaul@^1.1.2",
     "@/default/": "./src/default/",
-    "vaul": "npm:vaul@^1.1.2"
+    "@/typing": "./src/typing.ts"
   },
   "exports": {
     "./default/hooks/use-mobile": "./src/default/hooks/use-mobile.tsx",

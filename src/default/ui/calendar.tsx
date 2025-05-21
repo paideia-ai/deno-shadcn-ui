@@ -7,14 +7,43 @@ import { DayPicker } from 'react-day-picker'
 import { cn } from '@/default/lib/utils.ts'
 import { buttonVariants } from '@/default/ui/button.tsx'
 
+/**
+ * Calendar component props that extend React DayPicker's props.
+ * @typedef {React.ComponentProps<typeof DayPicker>} CalendarProps
+ */
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+/**
+ * A date field component that allows users to enter and edit dates.
+ * Built on top of React DayPicker, providing a styled calendar interface.
+ *
+ * @param {Object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names
+ * @param {Object} [props.classNames] - Custom class names for different parts of the calendar
+ * @param {boolean} [props.showOutsideDays=true] - Whether to show days outside the current month
+ * @param {Object} props.props - All other props from React DayPicker
+ *
+ * @returns {React.ReactElement} The Calendar component
+ *
+ * @example
+ * // Basic usage with single date selection
+ * const [date, setDate] = React.useState<Date | undefined>(new Date())
+ *
+ * return (
+ *   <Calendar
+ *     mode="single"
+ *     selected={date}
+ *     onSelect={setDate}
+ *     className="rounded-md border"
+ *   />
+ * )
+ */
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: CalendarProps) {
+}: CalendarProps): React.ReactElement {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -52,8 +81,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ className, ...props }) => <ChevronLeft className={cn('h-4 w-4', className)} {...props} />,
-        IconRight: ({ className, ...props }) => <ChevronRight className={cn('h-4 w-4', className)} {...props} />,
+        IconLeft: ({ className, ...props }: { className?: string }) => (
+          <ChevronLeft className={cn('h-4 w-4', className)} {...props} />
+        ),
+        IconRight: ({ className, ...props }: { className?: string }) => (
+          <ChevronRight className={cn('h-4 w-4', className)} {...props} />
+        ),
       }}
       {...props}
     />

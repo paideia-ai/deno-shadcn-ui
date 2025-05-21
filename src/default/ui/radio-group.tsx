@@ -3,13 +3,39 @@
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { Circle } from 'lucide-react'
+import type { ForwardRef } from '@/typing'
 
 import { cn } from '@/default/lib/utils.ts'
 
-const RadioGroup = React.forwardRef<
+/**
+ * Radio Group Component
+ *
+ * A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+ * Provides a container for a group of radio buttons.
+ *
+ * @param props - Props for the radio group component
+ * @param props.className - Optional additional CSS class names
+ * @param ref - React ref forwarded to the underlying radio group element
+ * @returns A radio group component
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup defaultValue="option-one">
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option-one" id="option-one" />
+ *     <Label htmlFor="option-one">Option One</Label>
+ *   </div>
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option-two" id="option-two" />
+ *     <Label htmlFor="option-two">Option Two</Label>
+ *   </div>
+ * </RadioGroup>
+ * ```
+ */
+const RadioGroup: ForwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
+> = React.forwardRef(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
       className={cn('grid gap-2', className)}
@@ -20,10 +46,31 @@ const RadioGroup = React.forwardRef<
 })
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
-const RadioGroupItem = React.forwardRef<
+/**
+ * Radio Group Item Component
+ *
+ * An individual radio button component that is part of a Radio Group.
+ * Only one RadioGroupItem can be selected at a time within a RadioGroup.
+ *
+ * @param props - Props for the radio group item component
+ * @param props.className - Optional additional CSS class names
+ * @param ref - React ref forwarded to the underlying radio button element
+ * @returns A radio button component
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup defaultValue="option-one">
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option-one" id="option-one" />
+ *     <Label htmlFor="option-one">Option One</Label>
+ *   </div>
+ * </RadioGroup>
+ * ```
+ */
+const RadioGroupItem: ForwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+> = React.forwardRef(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
       ref={ref}

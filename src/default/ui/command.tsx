@@ -7,11 +7,38 @@ import { Search } from 'lucide-react'
 
 import { cn } from '@/default/lib/utils.ts'
 import { Dialog, DialogContent } from '@/default/ui/dialog.tsx'
+import type { ForwardRef } from '@/typing'
 
-const Command = React.forwardRef<
+/**
+ * A command menu component built on top of the cmdk library.
+ *
+ * The Command component serves as the root container for command menu interfaces,
+ * providing a styled container for command search, items, and groups.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The Command component
+ *
+ * @example
+ * ```tsx
+ * <Command>
+ *   <CommandInput placeholder="Type a command or search..." />
+ *   <CommandList>
+ *     <CommandEmpty>No results found.</CommandEmpty>
+ *     <CommandGroup heading="Suggestions">
+ *       <CommandItem>Calendar</CommandItem>
+ *       <CommandItem>Search Emoji</CommandItem>
+ *       <CommandItem>Calculator</CommandItem>
+ *     </CommandGroup>
+ *   </CommandList>
+ * </Command>
+ * ```
+ */
+const Command: ForwardRef<
   React.ElementRef<typeof CommandPrimitive>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive
     ref={ref}
     className={cn(
@@ -23,7 +50,51 @@ const Command = React.forwardRef<
 ))
 Command.displayName = CommandPrimitive.displayName
 
-const CommandDialog = ({ children, ...props }: DialogProps) => {
+/**
+ * A dialog component that contains a Command menu.
+ *
+ * The CommandDialog component wraps a Command component within a Dialog,
+ * making it useful for keyboard-triggered command menus (e.g., Cmd+K).
+ *
+ * @param {object} props - The component props
+ * @param {React.ReactNode} props.children - The content of the command dialog
+ * @param {boolean} [props.open] - Whether the dialog is open
+ * @param {(open: boolean) => void} [props.onOpenChange] - Function called when open state changes
+ * @returns {React.ReactElement} The CommandDialog component
+ *
+ * @example
+ * ```tsx
+ * export function CommandMenu() {
+ *   const [open, setOpen] = React.useState(false)
+ *
+ *   React.useEffect(() => {
+ *     const down = (e: KeyboardEvent) => {
+ *       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+ *         e.preventDefault()
+ *         setOpen((open) => !open)
+ *       }
+ *     }
+ *     document.addEventListener("keydown", down)
+ *     return () => document.removeEventListener("keydown", down)
+ *   }, [])
+ *
+ *   return (
+ *     <CommandDialog open={open} onOpenChange={setOpen}>
+ *       <CommandInput placeholder="Type a command or search..." />
+ *       <CommandList>
+ *         <CommandEmpty>No results found.</CommandEmpty>
+ *         <CommandGroup heading="Suggestions">
+ *           <CommandItem>Calendar</CommandItem>
+ *           <CommandItem>Search Emoji</CommandItem>
+ *           <CommandItem>Calculator</CommandItem>
+ *         </CommandGroup>
+ *       </CommandList>
+ *     </CommandDialog>
+ *   )
+ * }
+ * ```
+ */
+const CommandDialog: React.FC<DialogProps> = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
       <DialogContent className='overflow-hidden p-0 shadow-lg'>
@@ -35,10 +106,30 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
   )
 }
 
-const CommandInput = React.forwardRef<
+/**
+ * An input component for the Command menu.
+ *
+ * The CommandInput component creates a styled search input with a search icon,
+ * used for filtering commands within a Command menu.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {string} [props.placeholder] - Placeholder text for the input
+ * @param {React.Ref<HTMLInputElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandInput component
+ *
+ * @example
+ * ```tsx
+ * <Command>
+ *   <CommandInput placeholder="Type a command or search..." />
+ *   {/* ... *\/}
+ * </Command>
+ * ```
+ */
+const CommandInput: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <div className='flex items-center border-b px-3' cmdk-input-wrapper=''>
     <Search className='mr-2 h-4 w-4 shrink-0 opacity-50' />
     <CommandPrimitive.Input
@@ -54,10 +145,34 @@ const CommandInput = React.forwardRef<
 
 CommandInput.displayName = CommandPrimitive.Input.displayName
 
-const CommandList = React.forwardRef<
+/**
+ * A container for command items in the Command menu.
+ *
+ * The CommandList component creates a scrollable container for holding
+ * command items, groups, and empty states within a Command menu.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandList component
+ *
+ * @example
+ * ```tsx
+ * <Command>
+ *   <CommandInput placeholder="Type a command or search..." />
+ *   <CommandList>
+ *     <CommandEmpty>No results found.</CommandEmpty>
+ *     <CommandGroup heading="Suggestions">
+ *       <CommandItem>Calendar</CommandItem>
+ *     </CommandGroup>
+ *   </CommandList>
+ * </Command>
+ * ```
+ */
+const CommandList: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive.List
     ref={ref}
     className={cn('max-h-[300px] overflow-y-auto overflow-x-hidden', className)}
@@ -67,10 +182,30 @@ const CommandList = React.forwardRef<
 
 CommandList.displayName = CommandPrimitive.List.displayName
 
-const CommandEmpty = React.forwardRef<
+/**
+ * A component to display when no results are found in the Command menu.
+ *
+ * The CommandEmpty component renders when the command search returns no results,
+ * providing feedback to the user.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.ReactNode} [props.children] - The content to display when empty
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandEmpty component
+ *
+ * @example
+ * ```tsx
+ * <CommandList>
+ *   <CommandEmpty>No results found.</CommandEmpty>
+ *   {/* ... *\/}
+ * </CommandList>
+ * ```
+ */
+const CommandEmpty: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
->((props, ref) => (
+> = React.forwardRef((props, ref) => (
   <CommandPrimitive.Empty
     ref={ref}
     className='py-6 text-center text-sm'
@@ -80,10 +215,33 @@ const CommandEmpty = React.forwardRef<
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName
 
-const CommandGroup = React.forwardRef<
+/**
+ * A group component for organizing commands in the Command menu.
+ *
+ * The CommandGroup component provides a way to categorize related command items
+ * with an optional heading.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {string} [props.heading] - The heading text for the group
+ * @param {React.ReactNode} props.children - The command items in this group
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandGroup component
+ *
+ * @example
+ * ```tsx
+ * <CommandList>
+ *   <CommandGroup heading="Suggestions">
+ *     <CommandItem>Calendar</CommandItem>
+ *     <CommandItem>Search Emoji</CommandItem>
+ *   </CommandGroup>
+ * </CommandList>
+ * ```
+ */
+const CommandGroup: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive.Group
     ref={ref}
     className={cn(
@@ -96,10 +254,34 @@ const CommandGroup = React.forwardRef<
 
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
-const CommandSeparator = React.forwardRef<
+/**
+ * A separator component for the Command menu.
+ *
+ * The CommandSeparator component creates a visual divider between command groups
+ * or items in a Command menu.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandSeparator component
+ *
+ * @example
+ * ```tsx
+ * <CommandList>
+ *   <CommandGroup heading="Suggestions">
+ *     <CommandItem>Calendar</CommandItem>
+ *   </CommandGroup>
+ *   <CommandSeparator />
+ *   <CommandGroup heading="Settings">
+ *     <CommandItem>Profile</CommandItem>
+ *   </CommandGroup>
+ * </CommandList>
+ * ```
+ */
+const CommandSeparator: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
     ref={ref}
     className={cn('-mx-1 h-px bg-border', className)}
@@ -108,10 +290,36 @@ const CommandSeparator = React.forwardRef<
 ))
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
-const CommandItem = React.forwardRef<
+/**
+ * An item component for the Command menu.
+ *
+ * The CommandItem component represents a selectable option in a Command menu,
+ * with styling for hover, focus, and selection states. It automatically styles
+ * icons placed inside it.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.ReactNode} props.children - The content of the command item
+ * @param {boolean} [props.disabled] - Whether the item is disabled
+ * @param {React.Ref<HTMLDivElement>} ref - The ref to attach to the component
+ * @returns {React.ReactElement} The CommandItem component
+ *
+ * @example
+ * ```tsx
+ * <CommandGroup heading="Suggestions">
+ *   <CommandItem>Calendar</CommandItem>
+ *   <CommandItem disabled>Search Emoji</CommandItem>
+ *   <CommandItem>
+ *     <CalendarIcon />
+ *     <span>Meeting</span>
+ *   </CommandItem>
+ * </CommandGroup>
+ * ```
+ */
+const CommandItem: ForwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
->(({ className, ...props }, ref) => (
+> = React.forwardRef(({ className, ...props }, ref) => (
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
@@ -124,7 +332,26 @@ const CommandItem = React.forwardRef<
 
 CommandItem.displayName = CommandPrimitive.Item.displayName
 
-const CommandShortcut = ({
+/**
+ * A component for displaying keyboard shortcuts in command items.
+ *
+ * The CommandShortcut component is used to display keyboard shortcuts or additional
+ * information at the right side of a command item.
+ *
+ * @param {object} props - The component props
+ * @param {string} [props.className] - Additional CSS class names to apply
+ * @param {React.ReactNode} props.children - The shortcut text or element
+ * @returns {React.ReactElement} The CommandShortcut component
+ *
+ * @example
+ * ```tsx
+ * <CommandItem>
+ *   <span>Settings</span>
+ *   <CommandShortcut>⌘S</CommandShortcut>
+ * </CommandItem>
+ * ```
+ */
+const CommandShortcut: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLSpanElement>) => {
