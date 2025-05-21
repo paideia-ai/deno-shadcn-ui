@@ -71,6 +71,19 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout)
 }
 
+/**
+ * Reducer function for managing toast state.
+ *
+ * @param {State} state - The current state of the toasts
+ * @param {Action} action - The action to perform on the state
+ * @returns {State} The updated state
+ *
+ * Handles four types of actions:
+ * - ADD_TOAST: Adds a new toast to the beginning of the queue
+ * - UPDATE_TOAST: Updates an existing toast by its id
+ * - DISMISS_TOAST: Marks toasts as closed and adds them to the removal queue
+ * - REMOVE_TOAST: Removes toasts from the state
+ */
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'ADD_TOAST':
@@ -143,6 +156,26 @@ interface ToastReturn {
   update: (props: ToasterToast) => void
 }
 
+/**
+ * Creates and displays a toast notification.
+ *
+ * @param {Toast} props - Props for configuring the toast notification
+ * @returns {ToastReturn} Object containing methods to control the toast:
+ *   - id: Unique identifier for the toast
+ *   - dismiss: Function to dismiss the toast
+ *   - update: Function to update the toast properties
+ *
+ * @example
+ * ```tsx
+ * const { toast } = useToast();
+ *
+ * toast({
+ *   title: "Success",
+ *   description: "Your changes have been saved.",
+ *   variant: "default"
+ * });
+ * ```
+ */
 function toast({ ...props }: Toast): ToastReturn {
   const id = genId()
 
@@ -177,6 +210,32 @@ interface UseToastReturn extends State {
   dismiss: (toastId?: string) => void
 }
 
+/**
+ * A custom hook for creating and managing toast notifications.
+ *
+ * @returns {UseToastReturn} An object containing:
+ *   - toasts: Array of current toast notifications
+ *   - toast: Function to create a new toast
+ *   - dismiss: Function to dismiss a specific toast or all toasts
+ *
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { toast, dismiss } = useToast();
+ *
+ *   const showToast = () => {
+ *     toast({
+ *       title: "Notification",
+ *       description: "This is a toast notification",
+ *     });
+ *   };
+ *
+ *   return (
+ *     <Button onClick={showToast}>Show Notification</Button>
+ *   );
+ * }
+ * ```
+ */
 function useToast(): UseToastReturn {
   const [state, setState] = React.useState<State>(memoryState)
 
