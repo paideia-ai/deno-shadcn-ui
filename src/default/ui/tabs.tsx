@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing tabs components for organizing content within separate views.
+ *
+ * @see https://ui.shadcn.com/docs/components/tabs
+ * @module
+ */
+
 import * as React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import type { ForwardRef } from '@/typing'

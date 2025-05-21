@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing avatar components for user profile images with fallbacks.
+ *
+ * @see https://ui.shadcn.com/docs/components/avatar
+ * @module
+ */
+
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 

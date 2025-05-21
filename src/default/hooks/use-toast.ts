@@ -1,6 +1,11 @@
+/**
+ * A module providing hooks and utilities for creating and managing toast notifications.
+ * Inspired by react-hot-toast library.
+ * @module
+ */
+
 'use client'
 
-// Inspired by react-hot-toast library
 import * as React from 'react'
 
 import type { ToastActionElement, ToastProps } from '@/default/ui/toast.tsx'

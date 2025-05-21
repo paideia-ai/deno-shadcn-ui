@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing scroll area components with custom scrollbars.
+ *
+ * @see https://ui.shadcn.com/docs/components/scroll-area
+ * @module
+ */
+
 import * as React from 'react'
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import type { ForwardRef } from '@/typing'

@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing hover card components for showing additional content on hover.
+ *
+ * @see https://ui.shadcn.com/docs/components/hover-card
+ * @module
+ */
+
 import * as React from 'react'
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
 import type { ForwardRef } from '@/typing'

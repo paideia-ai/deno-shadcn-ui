@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing collapsible components for showing and hiding content.
+ *
+ * @see https://ui.shadcn.com/docs/components/collapsible
+ * @module
+ */
+
 import * as React from 'react'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 

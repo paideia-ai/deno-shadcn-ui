@@ -1,3 +1,10 @@
+/**
+ * A module providing table components for organizing and displaying data in tabular format.
+ *
+ * @see https://ui.shadcn.com/docs/components/table
+ * @module
+ */
+
 import * as React from 'react'
 import type { ForwardRef } from '@/typing'
 

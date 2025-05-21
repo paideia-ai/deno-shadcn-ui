@@ -1,3 +1,10 @@
+/**
+ * A module providing alert components for displaying important messages to users.
+ *
+ * @see https://ui.shadcn.com/docs/components/alert
+ * @module
+ */
+
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { ClassProp } from 'class-variance-authority/types'

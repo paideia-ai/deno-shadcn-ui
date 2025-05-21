@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing carousel components for cycling through elements like slides or cards.
+ *
+ * @see https://ui.shadcn.com/docs/components/carousel
+ * @module
+ */
+
 import * as React from 'react'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'

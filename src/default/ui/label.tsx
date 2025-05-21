@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing label components for associating text with form controls.
+ *
+ * @see https://ui.shadcn.com/docs/components/label
+ * @module
+ */
+
 import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cva, type VariantProps } from 'class-variance-authority'

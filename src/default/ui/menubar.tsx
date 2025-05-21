@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing menubar components for desktop-style application menus.
+ *
+ * @see https://ui.shadcn.com/docs/components/menubar
+ * @module
+ */
+
 import * as React from 'react'
 import * as MenubarPrimitive from '@radix-ui/react-menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'

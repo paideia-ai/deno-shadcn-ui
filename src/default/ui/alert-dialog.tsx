@@ -1,3 +1,10 @@
+/**
+ * A module providing alert dialog components for interrupting user workflow with important content.
+ *
+ * @see https://ui.shadcn.com/docs/components/alert-dialog
+ * @module
+ */
+
 'use client'
 
 import * as React from 'react'

@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing progress bar components for displaying completion status.
+ *
+ * @see https://ui.shadcn.com/docs/components/progress
+ * @module
+ */
+
 import * as React from 'react'
 import * as ProgressPrimitive from '@radix-ui/react-progress'
 import type { ForwardRef } from '@/typing'

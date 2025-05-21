@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing calendar components for date picking, display, and navigation.
+ *
+ * @see https://ui.shadcn.com/docs/components/calendar
+ * @module
+ */
+
 import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'

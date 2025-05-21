@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing tooltip components for displaying additional information when hovering or focusing an element.
+ *
+ * @see https://ui.shadcn.com/docs/components/tooltip
+ * @module
+ */
+
 import * as React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import type { ForwardRef } from '@/typing'

@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing checkbox components for selecting single items.
+ *
+ * @see https://ui.shadcn.com/docs/components/checkbox
+ * @module
+ */
+
 import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { Check } from 'lucide-react'

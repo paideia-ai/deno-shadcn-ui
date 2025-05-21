@@ -1,3 +1,10 @@
+/**
+ * A module providing input components for collecting user input via a text field.
+ *
+ * @see https://ui.shadcn.com/docs/components/input
+ * @module
+ */
+
 import * as React from 'react'
 
 import { cn } from '@/default/lib/utils.ts'

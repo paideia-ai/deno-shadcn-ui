@@ -1,3 +1,10 @@
+/**
+ * A module providing textarea components for multi-line text input.
+ *
+ * @see https://ui.shadcn.com/docs/components/textarea
+ * @module
+ */
+
 import * as React from 'react'
 
 import { cn } from '@/default/lib/utils.ts'

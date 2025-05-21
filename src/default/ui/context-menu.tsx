@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing context menu components for displaying custom overlays on right-click.
+ *
+ * @see https://ui.shadcn.com/docs/components/context-menu
+ * @module
+ */
+
 import * as React from 'react'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'

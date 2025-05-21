@@ -1,3 +1,10 @@
+/**
+ * A module providing breadcrumb components for navigation and hierarchy display.
+ *
+ * @see https://ui.shadcn.com/docs/components/breadcrumb
+ * @module
+ */
+
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'

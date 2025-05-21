@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing resizable components for adjustable layout panels.
+ *
+ * @see https://ui.shadcn.com/docs/components/resizable
+ * @module
+ */
+
 import { GripVertical } from 'lucide-react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 

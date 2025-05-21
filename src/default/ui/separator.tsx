@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing separator components for dividing content visually.
+ *
+ * @see https://ui.shadcn.com/docs/components/separator
+ * @module
+ */
+
 import * as React from 'react'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 import type { ForwardRef } from '@/typing'

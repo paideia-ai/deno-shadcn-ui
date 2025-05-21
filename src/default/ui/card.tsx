@@ -1,3 +1,10 @@
+/**
+ * A module providing card components for displaying content in a contained format.
+ *
+ * @see https://ui.shadcn.com/docs/components/card
+ * @module
+ */
+
 import * as React from 'react'
 
 import { cn } from '@/default/lib/utils.ts'

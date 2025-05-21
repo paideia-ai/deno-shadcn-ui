@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing slider components for selecting a value or range from a range of values.
+ *
+ * @see https://ui.shadcn.com/docs/components/slider
+ * @module
+ */
+
 import * as React from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import type { ForwardRef } from '@/typing'

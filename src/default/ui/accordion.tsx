@@ -1,3 +1,10 @@
+/**
+ * A module providing accordion components for collapsible content sections.
+ *
+ * @see https://ui.shadcn.com/docs/components/accordion
+ * @module
+ */
+
 'use client'
 
 import * as React from 'react'

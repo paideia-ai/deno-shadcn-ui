@@ -1,3 +1,10 @@
+/**
+ * A module providing pagination components for navigating through pages of content.
+ *
+ * @see https://ui.shadcn.com/docs/components/pagination
+ * @module
+ */
+
 import * as React from 'react'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import type { ForwardRef } from '@/typing'

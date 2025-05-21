@@ -1,3 +1,10 @@
+/**
+ * A module providing aspect ratio components to maintain consistent width-to-height ratios.
+ *
+ * @see https://ui.shadcn.com/docs/components/aspect-ratio
+ * @module
+ */
+
 'use client'
 
 import * as AspectRatioPrimitive from '@radix-ui/react-aspect-ratio'

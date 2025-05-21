@@ -1,3 +1,10 @@
+/**
+ * A module providing navigation menu components for site navigation.
+ *
+ * @see https://ui.shadcn.com/docs/components/navigation-menu
+ * @module
+ */
+
 import * as React from 'react'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import { cva } from 'class-variance-authority'

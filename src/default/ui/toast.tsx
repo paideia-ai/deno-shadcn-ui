@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing toast components for displaying brief, non-blocking notifications.
+ *
+ * @see https://ui.shadcn.com/docs/components/toast
+ * @module
+ */
+
 import * as React from 'react'
 import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'

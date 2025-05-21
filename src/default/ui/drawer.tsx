@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing drawer components for displaying content in a panel that slides in from the edge of the screen.
+ *
+ * @see https://ui.shadcn.com/docs/components/drawer
+ * @module
+ */
+
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 import type { ForwardRef } from '@/typing'

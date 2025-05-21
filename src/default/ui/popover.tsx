@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing popover components for displaying content in floating panels.
+ *
+ * @see https://ui.shadcn.com/docs/components/popover
+ * @module
+ */
+
 import * as React from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import type { ForwardRef } from '@/typing'

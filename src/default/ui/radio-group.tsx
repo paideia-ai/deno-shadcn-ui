@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing radio group components for selecting a single option from a list.
+ *
+ * @see https://ui.shadcn.com/docs/components/radio-group
+ * @module
+ */
+
 import * as React from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { Circle } from 'lucide-react'

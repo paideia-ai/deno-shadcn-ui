@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing one-time password input components for verification codes.
+ *
+ * @see https://ui.shadcn.com/docs/components/input-otp
+ * @module
+ */
+
 import * as React from 'react'
 import { OTPInput, OTPInputContext } from 'input-otp'
 import { Dot } from 'lucide-react'

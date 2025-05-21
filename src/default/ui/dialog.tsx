@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing dialog components for displaying content that requires user interaction.
+ *
+ * @see https://ui.shadcn.com/docs/components/dialog
+ * @module
+ */
+
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'

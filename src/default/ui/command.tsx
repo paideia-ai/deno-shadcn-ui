@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing command components for building a command menu or command palette.
+ *
+ * @see https://ui.shadcn.com/docs/components/command
+ * @module
+ */
+
 import * as React from 'react'
 import { type DialogProps } from '@radix-ui/react-dialog'
 import { Command as CommandPrimitive } from 'cmdk'

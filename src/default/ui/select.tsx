@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * A module providing select components for selecting a value from a list of options.
+ *
+ * @see https://ui.shadcn.com/docs/components/select
+ * @module
+ */
+
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'

@@ -1,3 +1,8 @@
+/**
+ * A module providing a hook for detecting mobile viewports.
+ * @module
+ */
+
 import * as React from 'react'
 
 const MOBILE_BREAKPOINT = 768

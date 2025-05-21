@@ -1,3 +1,10 @@
+/**
+ * A module providing badge components for highlighting statuses or values.
+ *
+ * @see https://ui.shadcn.com/docs/components/badge
+ * @module
+ */
+
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { ClassProp } from 'class-variance-authority/types'
