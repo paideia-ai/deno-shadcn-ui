@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as LabelPrimitive from 'npm:@radix-ui/react-label'
-import { Slot } from 'npm:@radix-ui/react-slot'
+import * as LabelPrimitive from '@radix-ui/react-label'
+import { Slot } from '@radix-ui/react-slot'
 import {
   Controller,
   type ControllerProps,
@@ -12,7 +10,7 @@ import {
   type FieldValues,
   FormProvider,
   useFormContext,
-} from 'npm:react-hook-form'
+} from 'react-hook-form'
 
 import { cn } from '@/default/lib/utils.ts'
 import { Label } from '@/default/ui/label.tsx'

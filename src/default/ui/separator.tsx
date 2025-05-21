@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as SeparatorPrimitive from 'npm:@radix-ui/react-separator'
+import * as SeparatorPrimitive from '@radix-ui/react-separator'
 
 import { cn } from '@/default/lib/utils.ts'
 

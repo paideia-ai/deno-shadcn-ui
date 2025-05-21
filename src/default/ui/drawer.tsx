@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import { Drawer as DrawerPrimitive } from 'npm:vaul'
+import { Drawer as DrawerPrimitive } from 'vaul'
 
 import { cn } from '@/default/lib/utils.ts'
 

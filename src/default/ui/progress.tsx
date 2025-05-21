@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as ProgressPrimitive from 'npm:@radix-ui/react-progress'
+import * as ProgressPrimitive from '@radix-ui/react-progress'
 
 import { cn } from '@/default/lib/utils.ts'
 

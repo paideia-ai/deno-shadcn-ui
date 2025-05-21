@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as PopoverPrimitive from 'npm:@radix-ui/react-popover'
+import * as PopoverPrimitive from '@radix-ui/react-popover'
 
 import { cn } from '@/default/lib/utils.ts'
 

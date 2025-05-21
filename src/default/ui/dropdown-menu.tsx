@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as DropdownMenuPrimitive from 'npm:@radix-ui/react-dropdown-menu'
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 
 import { cn } from '@/default/lib/utils.ts'

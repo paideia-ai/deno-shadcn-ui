@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as TabsPrimitive from 'npm:@radix-ui/react-tabs'
+import * as TabsPrimitive from '@radix-ui/react-tabs'
 
 import { cn } from '@/default/lib/utils.ts'
 

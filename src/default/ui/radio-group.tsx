@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as RadioGroupPrimitive from 'npm:@radix-ui/react-radio-group'
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { Circle } from 'lucide-react'
 
 import { cn } from '@/default/lib/utils.ts'

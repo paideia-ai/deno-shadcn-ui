@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as RechartsPrimitive from 'npm:recharts'
+import * as RechartsPrimitive from 'recharts'
 
 import { cn } from '@/default/lib/utils.ts'
 

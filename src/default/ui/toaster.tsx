@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import { useToast } from '@/default/hooks/use-toast.ts'

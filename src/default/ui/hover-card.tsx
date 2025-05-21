@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as HoverCardPrimitive from 'npm:@radix-ui/react-hover-card'
+import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
 
 import { cn } from '@/default/lib/utils.ts'
 

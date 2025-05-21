@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 import { cn } from '@/default/lib/utils.ts'
 
 function Skeleton({

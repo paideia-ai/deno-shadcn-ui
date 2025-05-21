@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as SliderPrimitive from 'npm:@radix-ui/react-slider'
+import * as SliderPrimitive from '@radix-ui/react-slider'
 
 import { cn } from '@/default/lib/utils.ts'
 

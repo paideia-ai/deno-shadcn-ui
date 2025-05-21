@@ -1,7 +1,5 @@
-/// <reference lib="dom" />
-
 import * as React from 'react'
-import { cva, type VariantProps } from 'npm:class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/default/lib/utils.ts'
 

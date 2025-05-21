@@ -52,7 +52,7 @@ import { ChevronLeft } from "lucide-react";
   )
 })
 
-Deno.test('transformImports - adds npm: prefix to external imports', () => {
+Deno.test('transformImports - leaves external imports unchanged', () => {
   const input = `
 import * as RadixUI from "@radix-ui/react-dialog";
 import { cva } from "class-variance-authority";
@@ -60,21 +60,21 @@ import useEmblaCarousel from "embla-carousel-react";
 `
   const output = transformImports(input)
 
-  // External modules should get npm: prefix
+  // External modules should remain unchanged
   assertEquals(
-    output.includes('import * as RadixUI from "npm:@radix-ui/react-dialog"'),
+    output.includes('import * as RadixUI from "@radix-ui/react-dialog"'),
     true,
-    'RadixUI import should have npm: prefix',
+    'RadixUI import should remain unchanged',
   )
   assertEquals(
-    output.includes('import { cva } from "npm:class-variance-authority"'),
+    output.includes('import { cva } from "class-variance-authority"'),
     true,
-    'cva import should have npm: prefix',
+    'cva import should remain unchanged',
   )
   assertEquals(
-    output.includes('import useEmblaCarousel from "npm:embla-carousel-react"'),
+    output.includes('import useEmblaCarousel from "embla-carousel-react"'),
     true,
-    'embla-carousel-react import should have npm: prefix',
+    'embla-carousel-react import should remain unchanged',
   )
 })
 
@@ -121,9 +121,9 @@ import type {
 
   // Multi-line imports should be transformed correctly
   assertEquals(
-    output.includes('import {\n  Controller,\n  FormProvider,\n  useFormContext,\n} from "npm:react-hook-form"'),
+    output.includes('import {\n  Controller,\n  FormProvider,\n  useFormContext,\n} from "react-hook-form"'),
     true,
-    'Multi-line external imports should have npm: prefix',
+    'Multi-line external imports should remain unchanged',
   )
   assertEquals(
     output.includes('import type {\n  ToastActionElement,\n  ToastProps,\n} from "@/default/ui/toast.tsx"'),
@@ -142,9 +142,9 @@ import useEmblaCarousel, {
 
   // This specific case should be handled correctly
   assertEquals(
-    output.includes('from "npm:embla-carousel-react"'),
+    output.includes('from "embla-carousel-react"'),
     true,
-    'embla-carousel-react import with newlines should have npm: prefix',
+    'embla-carousel-react import with newlines should remain unchanged',
   )
 })
 
@@ -183,7 +183,7 @@ Deno.test('determineFileExtension - returns correct extensions', () => {
 })
 
 // Add more specific cases for the regex patterns as needed
-Deno.test('transformImports - multiple imports test cases', () => {
+Deno.test('transformImports - preserves external imports', () => {
   const inputs = [
     `import { VariantProps } from "class-variance-authority";`,
     `import useEmblaCarousel from "embla-carousel-react";`,
@@ -195,9 +195,9 @@ Deno.test('transformImports - multiple imports test cases', () => {
   for (const input of inputs) {
     const output = transformImports(input)
     assertEquals(
-      output.includes('npm:'),
+      output === input,
       true,
-      `Failed to add npm: prefix to: ${input}`,
+      `External import was modified: ${input}`,
     )
   }
 })

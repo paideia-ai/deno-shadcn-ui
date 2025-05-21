@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 import * as React from 'react'
 
 import { cn } from '@/default/lib/utils.ts'

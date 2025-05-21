@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as AlertDialogPrimitive from 'npm:@radix-ui/react-alert-dialog'
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 
 import { cn } from '@/default/lib/utils.ts'
 import { buttonVariants } from '@/default/ui/button.tsx'

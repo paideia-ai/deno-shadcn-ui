@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as ToastPrimitives from 'npm:@radix-ui/react-toast'
-import { cva, type VariantProps } from 'npm:class-variance-authority'
+import * as ToastPrimitives from '@radix-ui/react-toast'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { X } from 'lucide-react'
 
 import { cn } from '@/default/lib/utils.ts'

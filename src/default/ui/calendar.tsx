@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { DayPicker } from 'npm:react-day-picker'
+import { DayPicker } from 'react-day-picker'
 
 import { cn } from '@/default/lib/utils.ts'
 import { buttonVariants } from '@/default/ui/button.tsx'

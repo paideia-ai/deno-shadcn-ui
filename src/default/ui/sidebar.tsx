@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import { Slot } from 'npm:@radix-ui/react-slot'
-import { cva, VariantProps } from 'npm:class-variance-authority'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, VariantProps } from 'class-variance-authority'
 import { PanelLeft } from 'lucide-react'
 
 import { useIsMobile } from '@/default/hooks/use-mobile.tsx'

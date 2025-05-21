@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as LabelPrimitive from 'npm:@radix-ui/react-label'
-import { cva, type VariantProps } from 'npm:class-variance-authority'
+import * as LabelPrimitive from '@radix-ui/react-label'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/default/lib/utils.ts'
 

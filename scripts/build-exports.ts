@@ -35,7 +35,11 @@ async function getComponentFiles(): Promise<{
       hooks.push(entry.name)
     }
   } catch (e) {
-    console.warn(`Warning: Error reading hooks directory: ${e.message}`)
+    if (e instanceof Error) {
+      console.warn(`Warning: Error reading hooks directory: ${e.message}`)
+    } else {
+      console.warn('Warning: Unknown error reading hooks directory')
+    }
   }
 
   // Scan ui directory
@@ -46,7 +50,11 @@ async function getComponentFiles(): Promise<{
       ui.push(entry.name)
     }
   } catch (e) {
-    console.warn(`Warning: Error reading ui directory: ${e.message}`)
+    if (e instanceof Error) {
+      console.warn(`Warning: Error reading ui directory: ${e.message}`)
+    } else {
+      console.warn('Warning: Unknown error reading ui directory')
+    }
   }
 
   return { hooks, ui }
@@ -116,7 +124,11 @@ async function main() {
     const content = await Deno.readTextFile(DENO_JSON_PATH)
     config = JSON.parse(content)
   } catch (e) {
-    console.error(`Error reading deno.json: ${e.message}`)
+    if (e instanceof Error) {
+      console.error(`Error reading deno.json: ${e.message}`)
+    } else {
+      console.error('Error reading deno.json: Unknown error')
+    }
     Deno.exit(1)
   }
 
@@ -137,7 +149,11 @@ async function main() {
     )
     console.log(`Updated ${DENO_JSON_PATH} with ${Object.keys(newExports).length} exports`)
   } catch (e) {
-    console.error(`Error writing deno.json: ${e.message}`)
+    if (e instanceof Error) {
+      console.error(`Error writing deno.json: ${e.message}`)
+    } else {
+      console.error('Error writing deno.json: Unknown error')
+    }
     Deno.exit(1)
   }
 }

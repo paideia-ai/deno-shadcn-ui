@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as CheckboxPrimitive from 'npm:@radix-ui/react-checkbox'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { Check } from 'lucide-react'
 
 import { cn } from '@/default/lib/utils.ts'

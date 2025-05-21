@@ -1,10 +1,8 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as TogglePrimitive from 'npm:@radix-ui/react-toggle'
-import { cva, type VariantProps } from 'npm:class-variance-authority'
+import * as TogglePrimitive from '@radix-ui/react-toggle'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/default/lib/utils.ts'
 

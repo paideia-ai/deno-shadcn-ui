@@ -1,8 +1,6 @@
-/// <reference lib="dom" />
-
 import * as React from 'react'
-import { Slot } from 'npm:@radix-ui/react-slot'
-import { cva, type VariantProps } from 'npm:class-variance-authority'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/default/lib/utils.ts'
 

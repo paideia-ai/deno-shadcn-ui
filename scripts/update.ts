@@ -15,11 +15,7 @@ interface ImportInfo {
   path: string
 }
 
-// Define core modules - exported for testing
-export const CORE_MODULES = ['react', 'clsx', 'tailwind-merge', 'lucide-react']
-
-// Three categories: core, external, local
-const coreImports: Map<string, ImportInfo> = new Map() // core modules defined above
+// Two categories: external and local imports
 const externalImports: Map<string, ImportInfo> = new Map() // non-local (not starting with @/)
 const localImports: Map<string, ImportInfo> = new Map() // local (starting with @/)
 
@@ -141,12 +137,11 @@ async function main() {
   }
 
   // Print each category
-  printImportCategory('CORE', coreImports)
   printImportCategory('EXTERNAL', externalImports)
   printImportCategory('LOCAL', localImports)
 
   // Calculate overall total
-  const totalUniqueImports = coreImports.size + externalImports.size + localImports.size
+  const totalUniqueImports = externalImports.size + localImports.size
   console.log(`\nTotal unique imports across all categories: ${totalUniqueImports}`)
 }
 
@@ -176,28 +171,13 @@ export function determineFileExtension(path: string): string {
 }
 
 /**
- * Add NPM prefixes to all non-local and non-core imports
  * Transform local imports with file extensions and proper paths
  * Exported for testing
  */
 export function transformImports(content: string): string {
-  // First, handle external modules - add "npm:" prefix to non-local, non-core imports
-  // Match specific import statements with quoted paths for external modules - handle multi-line imports
-  const externalImportRegex =
-    /import\s+(?:(?:type\s+)?(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+)(?:\s*,\s*(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+))*\s+from\s+['"])([^@][^'"]*|@(?!\/)[^'"]*)(["'])/gs
-
-  let transformed = content.replace(externalImportRegex, (match, path, suffix) => {
-    // Reconstruct the prefix from the match
-    const prefixEnd = match.lastIndexOf(path)
-    const prefix = match.substring(0, prefixEnd)
-
-    // Skip core packages that are already in deno.json
-    if (CORE_MODULES.includes(path)) {
-      return `${prefix}${path}${suffix}`
-    }
-    // Add npm: prefix to external packages
-    return `${prefix}npm:${path}${suffix}`
-  })
+  // We don't need to modify external modules anymore - they'll be treated as core modules
+  // Just start with the original content
+  let transformed = content
 
   // Next, handle local imports - transform paths and add extensions
   // Match all local imports starting with @/ including different import formats
@@ -252,12 +232,12 @@ export function transformImports(content: string): string {
 }
 
 /**
- * Transform file content by adding DOM reference and extract imports
+ * Extract imports from file content
+ * Note: DOM references are now handled through deno.json compilerOptions.lib
  */
 function transformFile(content: string): string {
-  // Add DOM reference if not already present
-  const hasReference = content.includes('/// <reference lib="dom"')
-  const newContent = hasReference ? content : '/// <reference lib="dom" />\n\n' + content
+  // No need to add DOM reference anymore, it's in deno.json
+  const newContent = content
 
   // Extract imports using regex - match the import statements more precisely
   const importRegex =
@@ -268,16 +248,7 @@ function transformFile(content: string): string {
     const importPath = match[1]
 
     // Categorize the import
-    if (CORE_MODULES.includes(importPath)) {
-      // Core imports
-      if (coreImports.has(importPath)) {
-        const info = coreImports.get(importPath)!
-        info.count++
-        coreImports.set(importPath, info)
-      } else {
-        coreImports.set(importPath, { count: 1, path: importPath })
-      }
-    } else if (importPath.startsWith('@/')) {
+    if (importPath.startsWith('@/')) {
       // Local imports
       if (localImports.has(importPath)) {
         const info = localImports.get(importPath)!

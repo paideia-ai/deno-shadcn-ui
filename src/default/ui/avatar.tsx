@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as AvatarPrimitive from 'npm:@radix-ui/react-avatar'
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
 import { cn } from '@/default/lib/utils.ts'
 

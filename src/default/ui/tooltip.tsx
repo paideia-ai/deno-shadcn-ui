@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import * as React from 'react'
-import * as TooltipPrimitive from 'npm:@radix-ui/react-tooltip'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 
 import { cn } from '@/default/lib/utils.ts'
 

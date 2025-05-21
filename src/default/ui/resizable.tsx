@@ -1,9 +1,7 @@
-/// <reference lib="dom" />
-
 'use client'
 
 import { GripVertical } from 'lucide-react'
-import * as ResizablePrimitive from 'npm:react-resizable-panels'
+import * as ResizablePrimitive from 'react-resizable-panels'
 
 import { cn } from '@/default/lib/utils.ts'
 
