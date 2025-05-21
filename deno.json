@@ -16,5 +16,12 @@
   },
   "tasks": {
     "update": "deno run --allow-read --allow-write scripts/update.ts"
+  },
+  "imports": {
+    "clsx": "npm:clsx@^2.1.1",
+    "lucide-react": "npm:lucide-react@^0.511.0",
+    "react": "npm:react@^19.1.0",
+    "tailwind-merge": "npm:tailwind-merge@^3.3.0",
+    "@/default/": "./src/default/"
   }
 }

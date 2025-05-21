@@ -15,8 +15,8 @@ interface ImportInfo {
   path: string;
 }
 
-// Define core modules
-const CORE_MODULES = ['react', 'clsx', 'tailwind-merge', 'lucide-react'];
+// Define core modules - exported for testing
+export const CORE_MODULES = ['react', 'clsx', 'tailwind-merge', 'lucide-react'];
 
 // Three categories: core, external, local
 const coreImports: Map<string, ImportInfo> = new Map(); // core modules defined above
@@ -100,20 +100,69 @@ async function main() {
 
 /**
  * Add NPM prefixes to all non-local and non-core imports
+ * Transform local imports with file extensions and proper paths
+ * Exported for testing
  */
-function transformNonLocalImports(content: string): string {
-  // Add "npm:" prefix to non-local, non-core imports
-  // Match specific import statements with quoted paths
-  const importRegex = /(import\s+(?:.*?)\s+from\s+['"])([^@\/][^'"]*|@(?!\/)[^'"]*)(["'])/g;
+export function transformImports(content: string): string {
+  // First, handle external modules - add "npm:" prefix to non-local, non-core imports
+  // Match specific import statements with quoted paths for external modules - handle multi-line imports
+  const externalImportRegex = /import\s+(?:(?:type\s+)?(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+)(?:\s*,\s*(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+))*\s+from\s+['"])([^@][^'"]*|@(?!\/)[^'"]*)(["'])/gs;
   
-  // Replace the matched imports with npm: prefix for external packages
-  const transformed = content.replace(importRegex, (match, prefix, path, suffix) => {
+  let transformed = content.replace(externalImportRegex, (match, path, suffix) => {
+    // Reconstruct the prefix from the match
+    const prefixEnd = match.lastIndexOf(path);
+    const prefix = match.substring(0, prefixEnd);
+    
     // Skip core packages that are already in deno.json
     if (CORE_MODULES.includes(path)) {
       return `${prefix}${path}${suffix}`;
-    } 
+    }
     // Add npm: prefix to external packages
     return `${prefix}npm:${path}${suffix}`;
+  });
+  
+  // Next, handle local imports - transform paths and add extensions
+  // Match all local imports starting with @/ including different import formats
+  // This handles:
+  // 1. Regular imports: import { x } from "@/path"
+  // 2. Type imports: import type { x } from "@/path"
+  // 3. Multi-line imports with various formats
+  const localImportRegex = /import\s+(?:(?:type\s+)?(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+)(?:\s*,\s*(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+))*\s+from\s+['"])(@\/[^'"]+)(['"])/g;
+  
+  transformed = transformed.replace(localImportRegex, (match, path, suffix) => {
+    // Reconstruct the prefix from the original match up to the path
+    const prefixEnd = match.lastIndexOf(path);
+    const prefix = match.substring(0, prefixEnd);
+    // Handle different types of local imports
+    if (path.startsWith('@/registry/default/')) {
+      // Transform @/registry/default/xxx/yyy to @/default/xxx/yyy.ext
+      const newPath = path.replace('@/registry/default/', '@/default/');
+      
+      // Add appropriate extension based on the directory
+      if (newPath.includes('/ui/')) {
+        return `${prefix}${newPath}.tsx${suffix}`;
+      } else {
+        return `${prefix}${newPath}.ts${suffix}`;
+      }
+    } else if (path.startsWith('@/lib/') || path.startsWith('@/hooks/')) {
+      // Transform @/lib/utils to @/default/lib/utils.ts
+      // Transform @/hooks/xxx to @/default/hooks/xxx.ts
+      const parts = path.split('/');
+      const directory = parts[1]; // lib or hooks
+      const filename = parts.slice(2).join('/');
+      
+      return `${prefix}@/default/${directory}/${filename}.ts${suffix}`;
+    } else if (path === '@/lib/utils') {
+      // Special case for the most common import
+      return `${prefix}@/default/lib/utils.ts${suffix}`;
+    } else {
+      // For any other local imports, try to determine the proper extension
+      if (path.includes('/ui/')) {
+        return `${prefix}@/default${path.substring(2)}.tsx${suffix}`;
+      } else {
+        return `${prefix}@/default${path.substring(2)}.ts${suffix}`;
+      }
+    }
   });
   
   return transformed;
@@ -190,8 +239,8 @@ async function copyDirectory(source: string, target: string) {
       // First transform to add DOM reference and extract imports
       let transformedContent = await transformFile(content)
       
-      // Then add npm: prefix to non-local, non-core imports
-      transformedContent = transformNonLocalImports(transformedContent)
+      // Then transform all imports (add npm: prefix to external modules and fix local imports)
+      transformedContent = transformImports(transformedContent)
       
       // Write directly to target path
       await Deno.writeTextFile(targetPath, transformedContent)
