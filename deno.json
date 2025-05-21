@@ -5,9 +5,13 @@
     "jsxImportSourceTypes": "npm:@types/react"
   },
   "lint": {
-    "exclude": ["ui/"],
+    "exclude": [
+      "ui/"
+    ],
     "rules": {
-      "tags": ["recommended"]
+      "tags": [
+        "recommended"
+      ]
     }
   },
   "fmt": {
@@ -17,10 +21,13 @@
     "semiColons": false,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "exclude": ["ui/"]
+    "exclude": [
+      "ui/"
+    ]
   },
   "tasks": {
-    "update": "deno run --allow-read --allow-write scripts/update.ts"
+    "update": "deno run --allow-read --allow-write scripts/update.ts",
+    "build-exports": "deno run --allow-read --allow-write scripts/build-exports.ts"
   },
   "imports": {
     "clsx": "npm:clsx@^2.1.1",
@@ -28,5 +35,57 @@
     "react": "npm:react@^19.1.0",
     "tailwind-merge": "npm:tailwind-merge@^3.3.0",
     "@/default/": "./src/default/"
+  },
+  "exports": {
+    "./default/hooks/use-mobile": "./src/default/hooks/use-mobile.tsx",
+    "./default/hooks/use-toast": "./src/default/hooks/use-toast.ts",
+    "./default/ui/aspect-ratio": "./src/default/ui/aspect-ratio.tsx",
+    "./default/ui/alert-dialog": "./src/default/ui/alert-dialog.tsx",
+    "./default/ui/pagination": "./src/default/ui/pagination.tsx",
+    "./default/ui/tabs": "./src/default/ui/tabs.tsx",
+    "./default/ui/card": "./src/default/ui/card.tsx",
+    "./default/ui/slider": "./src/default/ui/slider.tsx",
+    "./default/ui/popover": "./src/default/ui/popover.tsx",
+    "./default/ui/progress": "./src/default/ui/progress.tsx",
+    "./default/ui/toaster": "./src/default/ui/toaster.tsx",
+    "./default/ui/input-otp": "./src/default/ui/input-otp.tsx",
+    "./default/ui/chart": "./src/default/ui/chart.tsx",
+    "./default/ui/hover-card": "./src/default/ui/hover-card.tsx",
+    "./default/ui/sheet": "./src/default/ui/sheet.tsx",
+    "./default/ui/scroll-area": "./src/default/ui/scroll-area.tsx",
+    "./default/ui/resizable": "./src/default/ui/resizable.tsx",
+    "./default/ui/label": "./src/default/ui/label.tsx",
+    "./default/ui/sonner": "./src/default/ui/sonner.tsx",
+    "./default/ui/navigation-menu": "./src/default/ui/navigation-menu.tsx",
+    "./default/ui/accordion": "./src/default/ui/accordion.tsx",
+    "./default/ui/drawer": "./src/default/ui/drawer.tsx",
+    "./default/ui/tooltip": "./src/default/ui/tooltip.tsx",
+    "./default/ui/alert": "./src/default/ui/alert.tsx",
+    "./default/ui/switch": "./src/default/ui/switch.tsx",
+    "./default/ui/calendar": "./src/default/ui/calendar.tsx",
+    "./default/ui/breadcrumb": "./src/default/ui/breadcrumb.tsx",
+    "./default/ui/radio-group": "./src/default/ui/radio-group.tsx",
+    "./default/ui/command": "./src/default/ui/command.tsx",
+    "./default/ui/toggle-group": "./src/default/ui/toggle-group.tsx",
+    "./default/ui/avatar": "./src/default/ui/avatar.tsx",
+    "./default/ui/menubar": "./src/default/ui/menubar.tsx",
+    "./default/ui/dialog": "./src/default/ui/dialog.tsx",
+    "./default/ui/badge": "./src/default/ui/badge.tsx",
+    "./default/ui/sidebar": "./src/default/ui/sidebar.tsx",
+    "./default/ui/table": "./src/default/ui/table.tsx",
+    "./default/ui/separator": "./src/default/ui/separator.tsx",
+    "./default/ui/button": "./src/default/ui/button.tsx",
+    "./default/ui/toggle": "./src/default/ui/toggle.tsx",
+    "./default/ui/toast": "./src/default/ui/toast.tsx",
+    "./default/ui/checkbox": "./src/default/ui/checkbox.tsx",
+    "./default/ui/collapsible": "./src/default/ui/collapsible.tsx",
+    "./default/ui/dropdown-menu": "./src/default/ui/dropdown-menu.tsx",
+    "./default/ui/select": "./src/default/ui/select.tsx",
+    "./default/ui/textarea": "./src/default/ui/textarea.tsx",
+    "./default/ui/input": "./src/default/ui/input.tsx",
+    "./default/ui/skeleton": "./src/default/ui/skeleton.tsx",
+    "./default/ui/context-menu": "./src/default/ui/context-menu.tsx",
+    "./default/ui/form": "./src/default/ui/form.tsx",
+    "./default/ui/carousel": "./src/default/ui/carousel.tsx"
   }
 }
