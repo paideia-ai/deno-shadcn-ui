@@ -2,6 +2,23 @@
 import { assertEquals } from "jsr:@std/assert";
 import { CORE_MODULES, transformImports } from "./update.ts";
 
+// Mock the fileExtensionMap for testing
+// We need to do this to test the determineFileExtension function
+// @ts-ignore: Accessing internal module for testing
+import { fileExtensionMap, determineFileExtension } from "./update.ts";
+
+// Clear any existing data
+fileExtensionMap.clear();
+
+// Set up some test data in the fileExtensionMap
+fileExtensionMap.set('hooks/use-mobile', '.tsx');
+fileExtensionMap.set('hooks/use-toast', '.ts');
+fileExtensionMap.set('lib/utils', '.ts');
+fileExtensionMap.set('ui/button', '.tsx');
+fileExtensionMap.set('ui/toast', '.tsx');
+fileExtensionMap.set('ui/dialog', '.tsx');
+fileExtensionMap.set('ui/sidebar', '.tsx');
+
 // Define a set of test cases for different import scenarios
 Deno.test("transformImports - handles core modules correctly", () => {
   const input = `
@@ -129,6 +146,40 @@ import useEmblaCarousel, {
     true,
     "embla-carousel-react import with newlines should have npm: prefix"
   );
+});
+
+// Test cases specific to dynamic file extension handling
+Deno.test("transformImports - correctly adds .tsx extension to use-mobile", () => {
+  const input = `import { useIsMobile } from "@/hooks/use-mobile";`;
+  const output = transformImports(input);
+  
+  assertEquals(
+    output.includes('import { useIsMobile } from "@/default/hooks/use-mobile.tsx"'),
+    true,
+    "use-mobile should get .tsx extension"
+  );
+});
+
+Deno.test("transformImports - handles direct component imports", () => {
+  const input = `import { Button } from "@/ui/button";`;
+  const output = transformImports(input);
+  
+  assertEquals(
+    output.includes('@/default/ui/button.tsx'),
+    true,
+    "Button should import from @/default/ui/button.tsx"
+  );
+});
+
+Deno.test("determineFileExtension - returns correct extensions", () => {
+  // Test with existing paths in the map
+  assertEquals(determineFileExtension('@/default/hooks/use-mobile'), '.tsx');
+  assertEquals(determineFileExtension('@/default/hooks/use-toast'), '.ts');
+  assertEquals(determineFileExtension('@/default/ui/button'), '.tsx');
+  
+  // Test defaults for paths not in the map
+  assertEquals(determineFileExtension('@/default/hooks/unknown'), '.ts');
+  assertEquals(determineFileExtension('@/default/ui/unknown'), '.tsx');
 });
 
 // Add more specific cases for the regex patterns as needed

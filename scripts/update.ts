@@ -4,7 +4,7 @@
  */
 
 import { copy, ensureDir } from 'jsr:@std/fs'
-import { join } from 'jsr:@std/path'
+import { join, extname } from 'jsr:@std/path'
 
 const SHADCN_REGISTRY_PATH = './ui/apps/www/registry/default'
 const TARGET_BASE_PATH = './src/default'
@@ -26,6 +26,53 @@ const localImports: Map<string, ImportInfo> = new Map(); // local (starting with
 // Directories to copy
 const DIRECTORIES = ['hooks', 'lib', 'ui']
 
+// Map to store file paths with their extensions
+type FileMap = Map<string, string>; // key: path without extension, value: extension (.ts or .tsx)
+// Export for testing
+export const fileExtensionMap: FileMap = new Map();
+
+/**
+ * Build a file extension map for the target directories
+ */
+async function buildFileExtensionMap(basePath: string): Promise<void> {
+  // Process each directory we need to copy
+  for (const dir of DIRECTORIES) {
+    const dirPath = join(basePath, dir);
+    
+    try {
+      await scanDirectory(dirPath, dir);
+    } catch (e) {
+      if (e instanceof Deno.errors.NotFound) {
+        console.warn(`Warning: Directory ${dirPath} not found, skipping scan.`);
+      } else {
+        console.error(`Error scanning ${dirPath}: ${e instanceof Error ? e.message : String(e)}`);
+      }
+    }
+  }
+}
+
+/**
+ * Recursively scan a directory and add files to the extension map
+ */
+async function scanDirectory(dirPath: string, relativePath: string): Promise<void> {
+  for await (const entry of Deno.readDir(dirPath)) {
+    const fullPath = join(dirPath, entry.name);
+    const relPath = join(relativePath, entry.name);
+    
+    if (entry.isDirectory) {
+      // Recursively scan subdirectories
+      await scanDirectory(fullPath, relPath);
+    } else {
+      // Get the file extension
+      const ext = extname(entry.name);
+      // Store path without extension as key
+      const pathWithoutExt = relPath.substring(0, relPath.length - ext.length);
+      // Store the extension (including the dot)
+      fileExtensionMap.set(pathWithoutExt, ext);
+    }
+  }
+}
+
 async function main() {
   console.log('Starting shadcn/ui components update...')
 
@@ -40,6 +87,11 @@ async function main() {
     console.error('You can run: git submodule update --init --recursive')
     Deno.exit(1)
   }
+
+  // First, build the file extension map
+  console.log('Building file extension map...');
+  await buildFileExtensionMap(TARGET_BASE_PATH);
+  console.log(`Found ${fileExtensionMap.size} files in the target directories.`);
 
   // Process each directory
   for (const dir of DIRECTORIES) {
@@ -99,6 +151,31 @@ async function main() {
 }
 
 /**
+ * Determine the file extension for a local path
+ * Defaults to .ts if not found in the map
+ * Exported for testing
+ */
+export function determineFileExtension(path: string): string {
+  // Extract the relative path from @/default/...
+  if (!path.startsWith('@/default/')) {
+    // Not a path we can determine
+    return path.includes('/ui/') ? '.tsx' : '.ts';
+  }
+  
+  // Remove @/default/ prefix
+  const relativePath = path.substring('@/default/'.length);
+  
+  // Look up in the file map
+  const foundExt = fileExtensionMap.get(relativePath);
+  if (foundExt) {
+    return foundExt;
+  }
+  
+  // Default to .ts or .tsx based on path
+  return path.includes('/ui/') ? '.tsx' : '.ts';
+}
+
+/**
  * Add NPM prefixes to all non-local and non-core imports
  * Transform local imports with file extensions and proper paths
  * Exported for testing
@@ -133,17 +210,14 @@ export function transformImports(content: string): string {
     // Reconstruct the prefix from the original match up to the path
     const prefixEnd = match.lastIndexOf(path);
     const prefix = match.substring(0, prefixEnd);
+    
     // Handle different types of local imports
     if (path.startsWith('@/registry/default/')) {
       // Transform @/registry/default/xxx/yyy to @/default/xxx/yyy.ext
       const newPath = path.replace('@/registry/default/', '@/default/');
-      
-      // Add appropriate extension based on the directory
-      if (newPath.includes('/ui/')) {
-        return `${prefix}${newPath}.tsx${suffix}`;
-      } else {
-        return `${prefix}${newPath}.ts${suffix}`;
-      }
+      // Use the file extension map to determine the correct extension
+      const ext = determineFileExtension(newPath);
+      return `${prefix}${newPath}${ext}${suffix}`;
     } else if (path.startsWith('@/lib/') || path.startsWith('@/hooks/')) {
       // Transform @/lib/utils to @/default/lib/utils.ts
       // Transform @/hooks/xxx to @/default/hooks/xxx.ts
@@ -151,17 +225,24 @@ export function transformImports(content: string): string {
       const directory = parts[1]; // lib or hooks
       const filename = parts.slice(2).join('/');
       
-      return `${prefix}@/default/${directory}/${filename}.ts${suffix}`;
+      const newPath = `@/default/${directory}/${filename}`;
+      const ext = determineFileExtension(newPath);
+      return `${prefix}${newPath}${ext}${suffix}`;
+    } else if (path.startsWith('@/ui/')) {
+      // Handle direct UI component imports like @/ui/button
+      const componentName = path.substring('@/ui/'.length);
+      const newPath = `@/default/ui/${componentName}`;
+      const ext = determineFileExtension(newPath);
+      return `${prefix}${newPath}${ext}${suffix}`;
     } else if (path === '@/lib/utils') {
       // Special case for the most common import
       return `${prefix}@/default/lib/utils.ts${suffix}`;
     } else {
       // For any other local imports, try to determine the proper extension
-      if (path.includes('/ui/')) {
-        return `${prefix}@/default${path.substring(2)}.tsx${suffix}`;
-      } else {
-        return `${prefix}@/default${path.substring(2)}.ts${suffix}`;
-      }
+      // Convert path from @/path to @/default/path
+      const newPath = `@/default${path.substring(2)}`;
+      const ext = determineFileExtension(newPath);
+      return `${prefix}${newPath}${ext}${suffix}`;
     }
   });
   
@@ -244,6 +325,12 @@ async function copyDirectory(source: string, target: string) {
       
       // Write directly to target path
       await Deno.writeTextFile(targetPath, transformedContent)
+
+      // After writing the file, update the file extension map
+      const ext = extname(entry.name);
+      const relPath = join(target, entry.name).replace(TARGET_BASE_PATH + '/', '');
+      const pathWithoutExt = relPath.substring(0, relPath.length - ext.length);
+      fileExtensionMap.set(pathWithoutExt, ext);
     }
   }
 }
