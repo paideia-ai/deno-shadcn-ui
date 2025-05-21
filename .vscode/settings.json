@@ -1,0 +1,8 @@
+{
+  "deno.enable": true,
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "css.validate": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
+}

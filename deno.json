@@ -1,0 +1,20 @@
+{
+  "lint": {
+    "exclude": ["ui/"],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 120,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "exclude": ["ui/"]
+  },
+  "tasks": {
+    "update": "deno run --allow-read --allow-write scripts/update.ts"
+  }
+}
