@@ -9,6 +9,9 @@ import { join } from 'jsr:@std/path'
 const SHADCN_REGISTRY_PATH = './ui/apps/www/registry/default'
 const TARGET_BASE_PATH = './src/default'
 
+// Store all detected imports
+const detectedImports: string[] = []
+
 // Directories to copy
 const DIRECTORIES = ['hooks', 'lib', 'ui']
 
@@ -57,6 +60,35 @@ async function main() {
   }
 
   console.log('shadcn/ui component update completed!')
+  
+  // List all detected imports
+  console.log('\n===== DETECTED IMPORTS =====');
+  for (const importStmt of detectedImports) {
+    console.log(importStmt);
+  }
+  console.log(`\nTotal imports found: ${detectedImports.length}`);
+}
+
+/**
+ * Transform file content by adding DOM reference and extract imports
+ */
+async function transformFile(content: string): Promise<string> {
+  // Add DOM reference if not already present
+  const hasReference = content.includes('/// <reference lib="dom"')
+  let newContent = hasReference ? content : '/// <reference lib="dom" />\n\n' + content
+  
+  // Extract imports using regex - match the import statements more precisely
+  const importRegex = /^\s*import\s+(?:(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+)(?:\s*,\s*(?:{[^}]*}|\*\s+as\s+[^\s,;]+|[^\s,;]+))*\s+from\s+)?['"]([^'"]+)['"]/gm
+  let match
+  while ((match = importRegex.exec(content)) !== null) {
+    // Just add the import path to detectedImports
+    const importPath = match[1]
+    if (!detectedImports.includes(importPath)) {
+      detectedImports.push(importPath)
+    }
+  }
+  
+  return newContent
 }
 
 /**
@@ -75,8 +107,14 @@ async function copyDirectory(source: string, target: string) {
       // Recursively copy subdirectories
       await copyDirectory(sourcePath, targetPath)
     } else {
-      // Copy file
-      await copy(sourcePath, targetPath, { overwrite: true })
+      // Read the source file
+      const content = await Deno.readTextFile(sourcePath)
+      
+      // Transform the content
+      const transformedContent = await transformFile(content)
+      
+      // Write directly to target path
+      await Deno.writeTextFile(targetPath, transformedContent)
     }
   }
 }
