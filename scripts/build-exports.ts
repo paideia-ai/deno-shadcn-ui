@@ -1,5 +1,5 @@
 /**
- * Script to generate exports for hooks and UI components
+ * Script to generate exports for hooks, UI components, and themes
  * This script scans src/default and updates deno.json with exports
  */
 
@@ -18,14 +18,16 @@ interface DenoJsonConfig {
 }
 
 /**
- * Get all files in hooks and ui directories
+ * Get all files in hooks, ui, and themes directories
  */
 async function getComponentFiles(): Promise<{
   hooks: string[]
   ui: string[]
+  themes: string[]
 }> {
   const hooks: string[] = []
   const ui: string[] = []
+  const themes: string[] = []
 
   // Scan hooks directory
   try {
@@ -35,11 +37,7 @@ async function getComponentFiles(): Promise<{
       hooks.push(entry.name)
     }
   } catch (e) {
-    if (e instanceof Error) {
-      console.warn(`Warning: Error reading hooks directory: ${e.message}`)
-    } else {
-      console.warn('Warning: Unknown error reading hooks directory')
-    }
+    console.warn(`Warning: Error reading hooks directory: ${e instanceof Error ? e.message : String(e)}`)
   }
 
   // Scan ui directory
@@ -50,20 +48,27 @@ async function getComponentFiles(): Promise<{
       ui.push(entry.name)
     }
   } catch (e) {
-    if (e instanceof Error) {
-      console.warn(`Warning: Error reading ui directory: ${e.message}`)
-    } else {
-      console.warn('Warning: Unknown error reading ui directory')
-    }
+    console.warn(`Warning: Error reading ui directory: ${e instanceof Error ? e.message : String(e)}`)
   }
 
-  return { hooks, ui }
+  // Scan themes directory
+  try {
+    for await (const entry of Deno.readDir(join(SRC_DIR, 'themes'))) {
+      if (!entry.isFile) continue
+      if (!entry.name.endsWith('.ts') && !entry.name.endsWith('.tsx')) continue
+      themes.push(entry.name)
+    }
+  } catch (e) {
+    console.warn(`Warning: Error reading themes directory: ${e instanceof Error ? e.message : String(e)}`)
+  }
+
+  return { hooks, ui, themes }
 }
 
 /**
  * Generate exports object for deno.json
  */
-function generateExports(hooks: string[], ui: string[]): Record<string, string> {
+function generateExports(hooks: string[], ui: string[], themes: string[]): Record<string, string> {
   const exports: Record<string, string> = {}
 
   // Process hooks
@@ -76,6 +81,12 @@ function generateExports(hooks: string[], ui: string[]): Record<string, string> 
   for (const file of ui) {
     const name = basename(file, extname(file))
     exports[`./default/ui/${name}`] = `./src/default/ui/${file}`
+  }
+
+  // Process themes
+  for (const file of themes) {
+    const name = basename(file, extname(file))
+    exports[`./default/themes/${name}`] = `./src/default/themes/${file}`
   }
 
   return exports
@@ -112,11 +123,11 @@ async function main() {
   console.log('Starting exports generation...')
 
   // Get component files
-  const { hooks, ui } = await getComponentFiles()
-  console.log(`Found ${hooks.length} hooks and ${ui.length} UI components`)
+  const { hooks, ui, themes } = await getComponentFiles()
+  console.log(`Found ${hooks.length} hooks, ${ui.length} UI components, and ${themes.length} themes`)
 
   // Generate exports
-  const newExports = generateExports(hooks, ui)
+  const newExports = generateExports(hooks, ui, themes)
 
   // Read deno.json
   let config: DenoJsonConfig
@@ -124,11 +135,7 @@ async function main() {
     const content = await Deno.readTextFile(DENO_JSON_PATH)
     config = JSON.parse(content)
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(`Error reading deno.json: ${e.message}`)
-    } else {
-      console.error('Error reading deno.json: Unknown error')
-    }
+    console.error(`Error reading deno.json: ${e instanceof Error ? e.message : String(e)}`)
     Deno.exit(1)
   }
 
@@ -149,11 +156,7 @@ async function main() {
     )
     console.log(`Updated ${DENO_JSON_PATH} with ${Object.keys(newExports).length} exports`)
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(`Error writing deno.json: ${e.message}`)
-    } else {
-      console.error('Error writing deno.json: Unknown error')
-    }
+    console.error(`Error writing deno.json: ${e instanceof Error ? e.message : String(e)}`)
     Deno.exit(1)
   }
 }
