@@ -1,6 +1,6 @@
 {
   "name": "@isofucius/deno-shadcn-ui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publish": {
     "include": [
       "LICENSE",
@@ -141,6 +141,7 @@
     "./default/ui/skeleton": "./src/default/ui/skeleton.tsx",
     "./default/ui/context-menu": "./src/default/ui/context-menu.tsx",
     "./default/ui/form": "./src/default/ui/form.tsx",
-    "./default/ui/carousel": "./src/default/ui/carousel.tsx"
+    "./default/ui/carousel": "./src/default/ui/carousel.tsx",
+    "./default/themes/base": "./src/default/themes/base.ts"
   }
 }
